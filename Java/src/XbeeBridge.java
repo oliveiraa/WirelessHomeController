@@ -17,24 +17,17 @@ public class XbeeBridge {
 	public static void main(String[] args) {
 		String comando = "";
 		Boolean valor = false;
-		for(int i = 0; i < args.length; i++){
+		XbeeBridge bridge = new XbeeBridge();
+		for(int i = 0; i < args.length; i = i + 2){
 			if(args[i] != null && args[i+1] != null)
 			{
 				comando = args[i];
-				valor = args[i] == "1";
-				XbeeBridge bridge = new XbeeBridge();
+				valor = args[i+1].equalsIgnoreCase("1");
 				bridge.LuzSala(valor);
 			}
 		}
 		
-//		XbeeBridge bridge = new XbeeBridge();
-//		bridge.LuzSala(true);
-//		try {
-//			Thread.sleep(5000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		bridge.LuzSala(false);
+		bridge.Close();
 	}
 	
 	XBee xbee;
@@ -55,6 +48,11 @@ public class XbeeBridge {
 		xbee.open("/dev/ttyUSB0", 9600);
 		addressSala = new XBeeAddress64(0, 0x13, 0xa2, 0, 0x40, 0x6f, 0xb7, 0xac);
 	}
+	
+	public void Close(){
+		xbee.close();
+	}
+	
 	
 	public void LuzSala(Boolean liga)
 	{

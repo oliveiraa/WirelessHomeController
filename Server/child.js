@@ -6,7 +6,7 @@ http.createServer(function(req,res){
         'Content-Type': 'text/plain'
     });
 
-    var child = spawn('java', ['SampleOut','ambiente','quarto']);
+    var child = spawn('java', ['-Djava.library.path=../Libs/xbee-api','-jar','Java/XbeeBridge.jar','sala','0']);
     
     child.stdout.on('data', function(data) {
         console.log(data.toString());
