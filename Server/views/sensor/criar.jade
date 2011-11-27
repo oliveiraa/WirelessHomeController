@@ -1,0 +1,29 @@
+h1=title
+div( data-role='page', id='content')
+  div
+    label(for='txtNome') Nome
+    input(type='text', id='txtNome')
+  div
+    label(for='txtEndereco') Endereço
+    input(type='text', id='txtEndereco')
+  div
+    label(for='txtDescricao') Descrição
+    textarea(id='txtDescricao')
+
+  input(type='button', id='btnCriar', style='margin-top: 10px;', value='Criar')
+
+script(type='text/javascript')
+  $('#content').live('pageinit', function(event) {
+    console.log("I'm ready!!!");
+    $('#btnCriar').click(function() {
+      var sensor = {};
+      sensor.Nome = $('#txtNome').val();
+      sensor.Endereco = $('#txtEndereco').val();
+      sensor.Descricao = $('#txtDescricao').val();
+      var body = {};
+      body.sensor = sensor;
+      $.post('/sensor/criar', body, function(data){
+        console.log(data);
+      });
+    });
+  });

@@ -1,6 +1,7 @@
-h1= title
-p Bem vindo ao Wireless Home Controller
-p Favor selecionar um comodo abaixo
-a(href='/comodo/0') Sala
-a(href='/comodo/1') Quarto
+div(data-role='page')
+  div(data-role='header')
+    h1=title
+  div(data-role='content')
+    ul(data-role='listview', id='ulMenu')
 
+script(type='text/javascript', src='/javascripts/index.js')
