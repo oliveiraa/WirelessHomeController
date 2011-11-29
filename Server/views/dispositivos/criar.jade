@@ -1,0 +1,24 @@
+div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
+  div(data-role='header')
+    h1=title
+  div(data-role='content')
+    div(data-role='fieldcontain')
+      label(for='txtDispNome') Nome
+      input(type='text', id='txtDispNome')
+    div(data-role='fieldcontain')
+      label(for='txtDispPorta') Porta
+      input(type='text', id='txtDispPorta')
+    div(data-role='fieldcontain')
+      label(for='txtDispDescricao') Descrição
+      textarea(type='text', id='txtDispDescricao')
+    div(data-role='fieldcontain')
+      fieldset(data-role='controlgroup', data-type='horizontal')
+        legend Tipo
+        input(type='radio', checked='checked', value='Digital', id='rdDigital', name='rdDigital')
+        label(for='rdDigital') Digital
+        input(type='radio', value='IncDec', id='rdIncDec', name='rdIncDec')
+        label(for='rdIncDec') Incrementar / Decrementar
+        input(type='radio', value='Leitura', id='rdLeitura', name='rdLeitura')
+        label(for='rdLeitura') Leitura
+
+script(type='text/javascript', src='/javascripts/dispositivos/criar.js')

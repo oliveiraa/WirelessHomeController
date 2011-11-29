@@ -5,6 +5,7 @@
 
 var express = require('express')
   , sensor = require('./routes/sensor')
+  , dispositivo = require('./routes/dispositivo')
   , socket = require('socket.io')
   , mongo = require('./mongo');
 
@@ -56,13 +57,19 @@ function setJson(req, res, next) {
   next();
 };
 
+// Json Routes
+app.get('/sensor.json', setJson, sensor.getSensores);
+app.get('/sensor.json/:nome', setJson, sensor.getSensor);
+
+// Regular Routes
 app.get('/', sensor.index);
 app.get('/sensor', sensor.getSensores);
-app.get('/sensor.json', setJson, sensor.getSensores);
+app.get('/sensor/sensores', sensor.getSensores);
 app.get('/sensor/criar', sensor.criarSensor);
-app.get('/sensor/:id', sensor.getSensor);
-
+app.get('/sensor/:nome', sensor.getSensor);
 app.post('/sensor/criar', sensor.criarSensorPost);
+
+app.get('/dispositivos/criar/:id/:nome', dispositivo.criar);
 
 
 

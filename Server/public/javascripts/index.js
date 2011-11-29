@@ -3,17 +3,28 @@ var index = function(){
   function CarregaMenu() {
     var $menu = $('#ulMenu');
     CarregaSensores($menu);
+    CarregarConfiguracoes($menu);
   };
 
   function CarregaSensores($menu){
     $.getJSON('/sensor.json',function(data){
+      var tmp = '';
       if(data.length > 0)
-        $menu.append('<li data-role="list-divider">Sensores</li>');
+        tmp += '<li data-role="list-divider">Sensores</li>';
       $(data).each(function(index, item){
-        $menu.append('<li><a href="/sensor/'+ item._id +'">' + item.Nome + '</a></li>');
+        tmp += '<li><a href="/sensor/'+ item.Nome +'">' + item.Nome + '</a></li>';
       });
+      $menu.append(tmp);
       $menu.listview('refresh');
     });
+  };
+
+  function CarregarConfiguracoes($menu) {
+    var tmp = '';
+    tmp += '<li data-role="list-divider">Configurações</li>';
+    tmp += '<li><a href="/sensor/sensores">Configurar Sensores</a></li>';
+    $menu.append(tmp);
+    $menu.listview('refresh');
   };
 
   return {
@@ -23,6 +34,6 @@ var index = function(){
   };
 }();
 
-$(function(){
+$(function() {
   index.initialize();
 })

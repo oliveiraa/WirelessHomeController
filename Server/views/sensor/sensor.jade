@@ -1,0 +1,24 @@
+div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
+  div(data-role='header')
+    h1=title
+  div(data-role='content')
+    div(data-role='fieldcontain')
+      label(for='txtNome') Nome
+      input(type='text', id='txtNome', value=item.Nome)
+    div(data-role='fieldcontain')
+      label(for='txtEndereco') Endereço
+      input(type='text', id='txtEndereco', value=item.Endereco)
+    div(data-role='fieldcontain')
+      label(for='txtDescricao') Descrição
+      textarea(type='text', id='txtDescricao')= item.Descricao
+    div(data-role='navbar', data-theme='c')
+      ul
+        li
+          a(class='ui-btn-active') Dispositivos
+    br
+    ul(data-role='listview')
+      each disp in item.Dispositivos
+        li(class='liDisp', data-sensor-id=item._id, data-dispositivo-nome=disp.Nome)
+          a= disp.Nome
+
+script(type='text/javascript', src='/javascripts/sensores/sensor.js')
