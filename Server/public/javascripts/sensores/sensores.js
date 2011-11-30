@@ -1,4 +1,4 @@
-var sensores = function(){
+var SensorSensores = function(){
 
   return {
     initialize: function(){
@@ -6,7 +6,3 @@ var sensores = function(){
     }
   };
 }();
-
-$(function() {
-  sensores.initialize();
-})

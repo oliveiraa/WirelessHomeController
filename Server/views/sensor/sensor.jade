@@ -1,4 +1,4 @@
-div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
+div(id='SensorSensor',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
   div(data-role='header')
     h1=title
   div(data-role='content')
@@ -21,4 +21,3 @@ div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text=
         li(class='liDisp', data-sensor-id=item._id, data-dispositivo-nome=disp.Nome)
           a(href='/dispositivos/criar/' + item._id + '/' + disp.Nome)= disp.Nome
 
-script(type='text/javascript', src='/javascripts/sensores/sensor.js')

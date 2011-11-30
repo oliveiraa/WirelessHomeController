@@ -34,22 +34,10 @@ exports.getSensor = function(req, res) {
         var result = collection.findOne({Nome:req.params.nome}, function(err, item){
           if(!item)
             item = {};
-          res.render('sensor/sensor', {title: 'Sensor', item: item});
-        });
-      });
-    };
-  });
-};
-
-exports.getSensorJson = function(req, res) {
-  this.db.open(function(err, db) {
-    if(!err) {
-      db.collection('Sensores', function(err, collection) {
-        var result = collection.findOne({_id:req.params._id}, function(err, item){
-          if(!item)
-            item = {};
           if(req.isJSON)
-            res.json(item);
+            res.send(item);
+          else
+            res.render('sensor/sensor', {title: 'Sensor', item: item});
         });
       });
     };

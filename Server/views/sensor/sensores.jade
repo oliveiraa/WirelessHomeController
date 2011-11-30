@@ -1,4 +1,4 @@
-div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
+div(id='SensorSensores',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
   div(data-role='header', data-position='inline')
     h1=title
     a(href='/sensor/criar', data-icon='new', class='ui-btn-right') Criar
@@ -8,4 +8,3 @@ div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text=
         li
           a(href='/sensor/' + item.Nome)= item.Nome
 
-script(type='text/javascript', src='/javascripts/sensores/sensores.js')

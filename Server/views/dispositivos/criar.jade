@@ -1,4 +1,4 @@
-div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
+div(id='DispositivosCriar',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
   div(data-role='header')
     h1=title
   div(data-role='content')
@@ -12,7 +12,7 @@ div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text=
       label(for='txtDispDescricao') Descrição
       textarea(type='text', id='txtDispDescricao')
     div(data-role='fieldcontain')
-      fieldset(data-role='controlgroup', data-type='horizontal')
+      fieldset(data-role='controlgroup')
         legend Tipo
         input(type='radio', checked='checked', value='Digital', id='rdDigital', name='rdDigital')
         label(for='rdDigital') Digital
@@ -22,5 +22,3 @@ div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text=
         label(for='rdLeitura') Leitura
   input(type='hidden', id='hdIDSensor', value=sensor.id)
   input(type='button', value='Criar', id='btnCriar')
-
-script(type='text/javascript', src='/javascripts/dispositivos/criar.js')

@@ -1,4 +1,4 @@
-var criarDispositivo = function(){
+var DispositivosCriar = function(){
 
   function InitializeEvents() {
     $('#btnCriar').click(btnCriarClick);
@@ -21,7 +21,3 @@ var criarDispositivo = function(){
     }
   };
 }();
-
-$('#content').live('pageinit', function(event) {
-  criarDispositivo.initialize();
-})

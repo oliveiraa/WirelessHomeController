@@ -6,6 +6,7 @@
 var express = require('express')
   , sensor = require('./routes/sensor')
   , dispositivo = require('./routes/dispositivo')
+  , gerenciar = require('./routes/gerenciar')
   , socket = require('socket.io')
   , mongo = require('./mongo');
 
@@ -41,7 +42,7 @@ sensor.db = db;
 
 io.sockets.on('connection', function(socket){
   socket.on('EnviaMensagemSensor', function (data){
-    console.log('Recebido mensagem no servidor do evento "EnviaMensagemSensor", fazendo broadcast');
+    console.log('Recebido mensagem no servidor do evento "EnviaMensagemSensor", fazendo broadcast, ' + data);
     socket.broadcast.emit('BridgeEnviaDados',data);
   });
 
@@ -57,9 +58,10 @@ function setJson(req, res, next) {
   next();
 };
 
+
 // Json Routes
 app.get('/sensor.json', setJson, sensor.getSensores);
-app.get('/sensor.json/:_id', setJson, sensor.getSensorJson);
+app.get('/sensor.json/:nome', setJson, sensor.getSensor);
 
 // Regular Routes
 app.get('/', sensor.index);
@@ -68,10 +70,9 @@ app.get('/sensor/sensores', sensor.getSensores);
 app.get('/sensor/criar', sensor.criarSensor);
 app.get('/sensor/:nome', sensor.getSensor);
 app.post('/sensor/criar', sensor.criarSensorPost);
-
 app.get('/dispositivos/criar/:id/:nome', dispositivo.criar);
 app.post('/dispositivos/criar', dispositivo.criarPost);
-
+app.get('/gerenciar/:nome', gerenciar.getSensor);
 
 
 app.listen(3000);

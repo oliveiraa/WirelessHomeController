@@ -12,7 +12,7 @@ var index = function(){
       if(data.length > 0)
         tmp += '<li data-role="list-divider">Sensores</li>';
       $(data).each(function(index, item){
-        tmp += '<li><a href="/sensor/'+ item.Nome +'">' + item.Nome + '</a></li>';
+        tmp += '<li><a href="/gerenciar/'+ item.Nome +'">' + item.Nome + '</a></li>';
       });
       $menu.append(tmp);
       $menu.listview('refresh');
@@ -33,7 +33,3 @@ var index = function(){
     }
   };
 }();
-
-$(function() {
-  index.initialize();
-})

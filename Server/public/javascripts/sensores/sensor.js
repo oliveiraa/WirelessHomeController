@@ -1,4 +1,4 @@
-var sensor = function(){
+var SensorSensor = function(){
 
   function lnkClick(lnk) {
   };
@@ -8,7 +8,3 @@ var sensor = function(){
     }
   };
 }();
-
-$(function() {
-  sensor.initialize();
-});
