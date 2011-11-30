@@ -59,7 +59,7 @@ function setJson(req, res, next) {
 
 // Json Routes
 app.get('/sensor.json', setJson, sensor.getSensores);
-app.get('/sensor.json/:nome', setJson, sensor.getSensor);
+app.get('/sensor.json/:_id', setJson, sensor.getSensorJson);
 
 // Regular Routes
 app.get('/', sensor.index);
@@ -70,6 +70,7 @@ app.get('/sensor/:nome', sensor.getSensor);
 app.post('/sensor/criar', sensor.criarSensorPost);
 
 app.get('/dispositivos/criar/:id/:nome', dispositivo.criar);
+app.post('/dispositivos/criar', dispositivo.criarPost);
 
 
 

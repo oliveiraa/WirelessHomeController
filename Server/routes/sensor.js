@@ -41,6 +41,21 @@ exports.getSensor = function(req, res) {
   });
 };
 
+exports.getSensorJson = function(req, res) {
+  this.db.open(function(err, db) {
+    if(!err) {
+      db.collection('Sensores', function(err, collection) {
+        var result = collection.findOne({_id:req.params._id}, function(err, item){
+          if(!item)
+            item = {};
+          if(req.isJSON)
+            res.json(item);
+        });
+      });
+    };
+  });
+};
+
 exports.criarSensor = function(req, res) {
   res.render('sensor/criar', {title: 'Criar Sensor'});
 };

@@ -6,5 +6,9 @@ exports.db = db;
  */
 
 exports.criar = function(req, res) {
-  res.render('/dispositivos/criar', { title: 'Criar Dispositivo', sensor: req.params.sensor });
+  res.render('dispositivos/criar', { title: 'Criar Dispositivo', sensor: req.params });
+};
+
+exports.criarPost = function(req, res) {
+  res.render('sensor/', { title: 'Sensores'});
 };

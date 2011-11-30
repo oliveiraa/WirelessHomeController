@@ -19,6 +19,6 @@ div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text=
     ul(data-role='listview')
       each disp in item.Dispositivos
         li(class='liDisp', data-sensor-id=item._id, data-dispositivo-nome=disp.Nome)
-          a= disp.Nome
+          a(href='/dispositivos/criar/' + item._id + '/' + disp.Nome)= disp.Nome
 
 script(type='text/javascript', src='/javascripts/sensores/sensor.js')

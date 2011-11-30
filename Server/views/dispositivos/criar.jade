@@ -20,5 +20,7 @@ div(id='content',data-role='page', data-add-back-btn='true', data-back-btn-text=
         label(for='rdIncDec') Incrementar / Decrementar
         input(type='radio', value='Leitura', id='rdLeitura', name='rdLeitura')
         label(for='rdLeitura') Leitura
+  input(type='hidden', id='hdIDSensor', value=sensor.id)
+  input(type='button', value='Criar', id='btnCriar')
 
 script(type='text/javascript', src='/javascripts/dispositivos/criar.js')
