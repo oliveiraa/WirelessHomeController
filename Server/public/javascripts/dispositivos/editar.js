@@ -1,10 +1,10 @@
-var DispositivosCriar = function(){
+var DispositivosEditar = function(){
 
   function InitializeEvents() {
-    $('#btnCriar').click(btnCriarClick);
+    $('#btnEditar').click(btnEditarClick);
   };
 
-  function btnCriarClick() {
+  function btnEditarClick() {
     var nomeSensor = $('#hdNomeSensor').val();
     var dispositivo = {};
     var data = {};
@@ -15,7 +15,8 @@ var DispositivosCriar = function(){
     dispositivo.Tipo = $('#selectTipo').val();;
     data.dispositivo = dispositivo;
     data.nomeSensor = nomeSensor;
-    $.post('/dispositivos/criar', data, function(rData){
+    $.post('/dispositivos/editar', data, function(rData){
+      console.log(rData);
       $.mobile.changePage('/sensor/' + nomeSensor, {allowSamePageTransition: true, transition: 'slideup'});
     });
   };

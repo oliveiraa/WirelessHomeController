@@ -1,20 +1,21 @@
-div(id='DispositivosCriar',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
+div(id='DispositivosEditar',data-role='page', data-add-back-btn='true', data-back-btn-text='Voltar')
   div(data-role='header')
     h1=title
   div(data-role='content')
     div(data-role='fieldcontain')
       label(for='txtDispNome') Nome
-      input(type='text', id='txtDispNome')
+      input(type='text', id='txtDispNome', readonly='true', value=dispositivo.Nome)
     div(data-role='fieldcontain')
       label(for='txtDispPorta') Porta
-      input(type='text', id='txtDispPorta')
+      input(type='text', id='txtDispPorta', value=dispositivo.Porta)
     div(data-role='fieldcontain')
       label(for='txtDispDescricao') Descrição
-      textarea(type='text', id='txtDispDescricao')
+      textarea(type='text', id='txtDispDescricao')= dispositivo.Descricao
       label(for='selectTipo') Tipo
       select(id='selectTipo')
         option(value='Digital') Digital
         option(value='IncDec') Incrementar/Decrementar
         option(value='Leitura') Leitura
+  input(type='hidden', id='hdTipo', value=dispositivo.Tipo)
   input(type='hidden', id='hdNomeSensor', value=sensor.Nome)
-  input(type='button', value='Criar', id='btnCriar')
+  input(type='button', value='Editar', id='btnEditar')

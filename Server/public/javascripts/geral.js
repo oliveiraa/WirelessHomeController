@@ -1,5 +1,5 @@
 var geral = function(){
-  
+
   //Configuacao de Xbees
   var addressSala = "00 13 a2 00 40 6f b7 ac";
 
@@ -17,8 +17,8 @@ var geral = function(){
 
   return {
     initialize: function() {
-    
-    }  
+
+    }
   }
 }();
 
@@ -30,13 +30,17 @@ $('#DispositivosCriar').live('pageinit', function(event) {
   DispositivosCriar.initialize();
 });
 
+$('#DispositivosEditar').live('pageinit', function(evet) {
+  DispositivosEditar.initialize();
+});
+
 $('#SensorCriar').live('pageinit', function(event) {
   SensorCriar.initialize();
 });
 
 $('#SensorSensor').live('pageinit', function(event) {
   SensorSensor.initialize();
-});    
+});
 
 $('#SensorSensores').live('pageinit', function(event) {
   SensorSensores.initialize();
@@ -45,6 +49,3 @@ $('#SensorSensores').live('pageinit', function(event) {
 $('#GerenciarSensor').live('pageinit', function(event){
   GerenciarSensor.initialize();
 });
-
-
-

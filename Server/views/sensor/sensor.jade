@@ -11,13 +11,11 @@ div(id='SensorSensor',data-role='page', data-add-back-btn='true', data-back-btn-
     div(data-role='fieldcontain')
       label(for='txtDescricao') Descrição
       textarea(type='text', id='txtDescricao')= item.Descricao
-    div(data-role='navbar', data-theme='c')
-      ul
-        li
-          a(class='ui-btn-active') Dispositivos
     br
     ul(data-role='listview')
+      li(data-role='list-divider') Dispositivos
+      li
+        a(href='/dispositivos/criar/' + item.Nome) Adicionar Novo
       each disp in item.Dispositivos
-        li(class='liDisp', data-sensor-id=item._id, data-dispositivo-nome=disp.Nome)
-          a(href='/dispositivos/criar/' + item._id + '/' + disp.Nome)= disp.Nome
-
+        li
+          a(href='/dispositivos/editar/' + disp.Nome)= disp.Nome

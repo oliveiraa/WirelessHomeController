@@ -34,6 +34,8 @@ exports.getSensor = function(req, res) {
         var result = collection.findOne({Nome:req.params.nome}, function(err, item){
           if(!item)
             item = {};
+          if(!item.Dispositivos)
+            item.Dispositivos = [];
           if(req.isJSON)
             res.send(item);
           else

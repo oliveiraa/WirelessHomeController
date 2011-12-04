@@ -70,8 +70,10 @@ app.get('/sensor/sensores', sensor.getSensores);
 app.get('/sensor/criar', sensor.criarSensor);
 app.get('/sensor/:nome', sensor.getSensor);
 app.post('/sensor/criar', sensor.criarSensorPost);
-app.get('/dispositivos/criar/:id/:nome', dispositivo.criar);
+app.get('/dispositivos/criar/:nome', dispositivo.criar);
 app.post('/dispositivos/criar', dispositivo.criarPost);
+app.get('/dispositivos/editar/:nome', dispositivo.editar);
+app.post('/dispositivos/editar', dispositivo.editarPost);
 app.get('/gerenciar/:nome', gerenciar.getSensor);
 
 
