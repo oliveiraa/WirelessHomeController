@@ -11,10 +11,15 @@ div(id='DispositivosCriar',data-role='page', data-add-back-btn='true', data-back
     div(data-role='fieldcontain')
       label(for='txtDispDescricao') Descrição
       textarea(type='text', id='txtDispDescricao')
+    div(data-role='fieldcontain')
+      label(for='txtDispFuncao') Função
+      textarea(type='text', id='txtDispFuncao')
+    div(data-role='fieldcontain')
       label(for='selectTipo') Tipo
       select(id='selectTipo')
         option(value='Digital') Digital
         option(value='IncDec') Incrementar/Decrementar
         option(value='Leitura') Leitura
+        option(value='LeituraAnalogica') Leitura Analógica
   input(type='hidden', id='hdNomeSensor', value=sensor.Nome)
   input(type='button', value='Criar', id='btnCriar')

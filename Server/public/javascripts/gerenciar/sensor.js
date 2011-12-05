@@ -3,7 +3,22 @@ var GerenciarSensor = function(){
   var socket;
 
   function InitializeEvents() {
-    socket = io.connect('http://localhost:3000');
+    socket = io.connect('http://192.168.1.116:3000');
+    socket.on('RecebeMensagemSensor', function(data) {
+      switch(data.comando) {
+        case 'LeituraDigital': {
+          
+          break;
+        };
+        case 'LeituraAnalogica': {
+          console.log(data);
+          break;
+        };
+        case '': {
+          break;
+        };                
+      };
+    });
   };
 
   function InitializeSensor() {
@@ -19,15 +34,19 @@ var GerenciarSensor = function(){
           dispositivo.htmlId = dispositivo.Nome.split(' ')[0] + i;
           switch(dispositivo.Tipo) {
             case 'Digital': {
-                CarregaDispositivoDigital(dispositivo);
+                CarregaDispositivoDigital(sensor,dispositivo);
                 break;
               }
               case 'IncDec' : {
-                CarregaDispositivoIncDec(dispositivo);
+                CarregaDispositivoIncDec(sensor,dispositivo);
                 break;
               }
               case 'Leitura' : {
-                CarregaDispositivoLeitura(dispositivo);
+                CarregaDispositivoLeitura(sensor,dispositivo);
+                break;
+              }
+              case 'LeituraAnalogica' : {
+                CarregaDispositivoLeituraAnalogica(sensor,dispositivo);
                 break;
               }
           };
@@ -35,7 +54,7 @@ var GerenciarSensor = function(){
     });
   };
 
-  function CarregaDispositivoDigital(dispositivo) {
+  function CarregaDispositivoDigital(sensor,dispositivo) {
     var $div = $('#ConteudoSensores');
     var html = "<br /><br />";
     html += "<label for='" + dispositivo.htmlId + "'>" + dispositivo.Nome + "</label>";
@@ -47,11 +66,20 @@ var GerenciarSensor = function(){
     var $disp = $('#' + dispositivo.htmlId);
     $disp.slider();
     $disp.on('change', function(event, ui) {
-      socket.emit('EnviaMensagemSensor', {porta: dispositivo.Porta});
+      var data = {};
+      data.porta = dispositivo.Porta;
+      data.endereco = sensor.Endereco;
+      data.comando = 'AlteraValorDigital';
+      data.id = dispositivo.htmlId;
+      if($('#' + dispositivo.htmlId).val() === "false")
+        data.valor = 4;
+      else	
+        data.valor = 5;
+      socket.emit('EnviaMensagemSensor', {data: data});
     });
   };
 
-  function CarregaDispositivoIncDec(dispositivo) {
+  function CarregaDispositivoIncDec(sensor,dispositivo) {
     var $div = $('#ConteudoSensores');
     var html = "<br /><br />";
     html += "<fieldset data-role='controlgroup' data-type='horizontal' id='" + dispositivo.htmlId + "'><legend>" + dispositivo.Nome + "</legend>";
@@ -61,13 +89,53 @@ var GerenciarSensor = function(){
     html += "</fieldset>";
     $div.append(html);
     $div.trigger('create');
-    var $disp = $('#' + dispositivo.htmlId);
     $("#" + dispositivo.htmlId + " input[type='radio']").on('change', function(event, ui) {
-      socket.emit('EnviaMensagemSensor', {porta: dispositivo.Porta});
+      var opcao = $($("input[type='radio']:checked , #" + dispositivo.htmlId)[1]).val();
+      switch(opcao) {
+        case 'direita': {
+          var data = {};
+          data.porta = dispositivo.Porta.split(',')[0];
+          data.endereco = sensor.Endereco;
+          data.comando = 'AlteraValorDigital';
+          data.valor = 4;
+          data.id = dispositivo.htmlId;
+          socket.emit('EnviaMensagemSensor', {data: data});          
+          data.porta = dispositivo.Porta.split(',')[1];
+          data.valor = 5;
+          socket.emit('EnviaMensagemSensor', {data: data});          
+          break;
+        }
+        case 'esquerda': {
+          var data = {};
+          data.porta = dispositivo.Porta.split(',')[0];
+          data.endereco = sensor.Endereco;
+          data.comando = 'AlteraValorDigital';
+          data.valor = 5;
+          data.id = dispositivo.htmlId;
+          socket.emit('EnviaMensagemSensor', {data: data});          
+          data.porta = dispositivo.Porta.split(',')[1];
+          data.valor = 4;
+          socket.emit('EnviaMensagemSensor', {data: data});                    
+          break;
+        }
+        case 'desligado': {
+          var data = {};
+          data.porta = dispositivo.Porta.split(',')[0];
+          data.endereco = sensor.Endereco;
+          data.comando = 'AlteraValorDigital';
+          data.valor = 4;
+          data.id = dispositivo.htmlId;
+          socket.emit('EnviaMensagemSensor', {data: data});          
+          data.porta = dispositivo.Porta.split(',')[1];
+          data.valor = 4;
+          socket.emit('EnviaMensagemSensor', {data: data});          
+          break;
+        }
+      };
     });
   };
 
-  function CarregaDispositivoLeitura(dispositivo) {
+  function CarregaDispositivoLeitura(sensor,dispositivo) {
     var $div = $('#ConteudoSensores');
     var html = "<br /><br />";
     html += "<label for='" + dispositivo.htmlId + "'>" + dispositivo.Nome + "</label>";
@@ -76,9 +144,38 @@ var GerenciarSensor = function(){
     $div.append(html);
     $div.trigger('create');
     var $disp = $('#' + dispositivo.htmlId);
+    var data = {};
+    data.porta = dispositivo.Porta;
+    data.endereco = sensor.Endereco;
+    data.comando = "AlteraValorDigital";
+    data.valor = 3;
+    data.id = dispositivo.htmlId;
+    socket.emit('EnviaMensagemSensor', {data: data});          
     window.setInterval(function(){
-      console.log("Leitura Analogica");
-      //socket.emit('EnviaMensagemSensor', {porta: dispositivo.Porta});
+      data.comando = "LerValorDigital";
+      socket.emit('EnviaMensagemSensor', {data: data});          
+    },1000);
+  };
+  
+  function CarregaDispositivoLeituraAnalogica(sensor,dispositivo) {
+    var $div = $('#ConteudoSensores');
+    var html = "<br /><br />";
+    html += "<label for='" + dispositivo.htmlId + "'>" + dispositivo.Nome + "</label>";
+    html += "<input type='text' readonly='true' id='" + dispositivo.htmlId + "'>";
+    html += "</fieldset>";
+    $div.append(html);
+    $div.trigger('create');
+    var $disp = $('#' + dispositivo.htmlId);
+    var data = {};
+    data.porta = dispositivo.Porta;
+    data.endereco = sensor.Endereco;
+    data.comando = "AlteraValorDigital";
+    data.valor = 2;
+    data.id = dispositivo.htmlId;
+    socket.emit('EnviaMensagemSensor', {data: data});          
+    window.setInterval(function(){
+      data.comando = "LerValorAnalogico";
+      socket.emit('EnviaMensagemSensor', {data: data});          
     },1000);
   };
 

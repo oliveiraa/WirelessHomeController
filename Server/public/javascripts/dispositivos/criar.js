@@ -11,6 +11,7 @@ var DispositivosCriar = function(){
 
     dispositivo.Nome = $('#txtDispNome').val();
     dispositivo.Porta = $('#txtDispPorta').val();
+    dispositivo.funcao = $('#txtDispFuncao').val();
     dispositivo.Descricao = $('#txtDispDescricao').val();
     dispositivo.Tipo = $('#selectTipo').val();;
     data.dispositivo = dispositivo;

@@ -10,7 +10,11 @@ import com.rapplogic.xbee.api.RemoteAtResponse;
 import com.rapplogic.xbee.api.XBee;
 import com.rapplogic.xbee.api.XBeeAddress64;
 import com.rapplogic.xbee.api.XBeeException;
+import com.rapplogic.xbee.api.XBeeRequest;
+import com.rapplogic.xbee.api.XBeeResponse;
 import com.rapplogic.xbee.api.XBeeTimeoutException;
+import com.rapplogic.xbee.api.zigbee.ZBForceSampleRequest;
+import com.rapplogic.xbee.api.zigbee.ZNetRxIoSampleResponse;
 
 public class XbeeCallback implements MessageCallback {
 
@@ -64,12 +68,18 @@ public class XbeeCallback implements MessageCallback {
 	
 	private void EnviaMensagemSensor(JSONObject[] data) {
 		if(data.length > 0){
-			JSONObject json = data[0];
-			System.out.println(json.toString());
 			int[] valor = new int[1];
 			try {
-				valor[0] = json.getInt("valor");
-				ConfiguraPorta(json.getString("porta"), valor, new XBeeAddress64(json.getString("address")));
+				JSONObject json = data[0].getJSONObject("data");
+				String comando = json.getString("comando");
+				if(comando.equalsIgnoreCase("AlteraValorDigital")) {
+					valor[0] = json.getInt("valor");
+					ConfiguraPorta(json.getString("porta"), valor, new XBeeAddress64(json.getString("endereco")));					
+				} else if(comando.equalsIgnoreCase("LerValorDigital")) {
+					LerEntradaDigital(json);
+				} else if(comando.equalsIgnoreCase("LerValorAnalogico")) {
+					LerEntradaAnalogica(json);
+				}
 			} catch (XBeeTimeoutException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -83,14 +93,50 @@ public class XbeeCallback implements MessageCallback {
 		}
 	}
 	
-	public void LerEntrada(){
+	public void LerEntradaDigital(JSONObject json){
 		try {
-			JSONObject json = new JSONObject("{entrada: 'D0', valor: '100'}");
-			socket.emit("EntradaLida", json);
+			XBeeAddress64 address = new XBeeAddress64(json.getString("endereco"));
+			String porta = json.getString("porta");
+			int pin = Integer.parseInt(porta.substring(1));
+			XBeeRequest request = new ZBForceSampleRequest(address);
+			XBeeResponse response = xbee.sendSynchronous(request,6000);
+			RemoteAtResponse remoteAt = (RemoteAtResponse)response;
+			if(remoteAt.isOk()) {
+				ZNetRxIoSampleResponse ioSample = ZNetRxIoSampleResponse.parseIsSample(remoteAt);
+				socket.emit("BridgeRecebeDados", new JSONObject("{comando: LeituraDigital, valor: " + ioSample.isDigitalOn(pin) + ", id:" + json.getString("id") + "}"));
+			}
+			
 		} catch (JSONException e) {
 			System.out.println("Nao foi possivel construir objeto JSON para leitura de entrada");
 		} catch (IOException e) {
 			System.out.println("Nao foi possivel enviar evento EntradaLida para servidor");
+		} catch (XBeeTimeoutException e) {
+			e.printStackTrace();
+		} catch (XBeeException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void LerEntradaAnalogica(JSONObject json){
+		try {
+			XBeeAddress64 address = new XBeeAddress64(json.getString("endereco"));
+			String porta = json.getString("porta");
+			int pin = Integer.parseInt(porta.substring(1));
+			XBeeRequest request = new ZBForceSampleRequest(address);
+			XBeeResponse response = xbee.sendSynchronous(request,6000);
+			RemoteAtResponse remoteAt = (RemoteAtResponse)response;
+			if(remoteAt.isOk()) {
+				ZNetRxIoSampleResponse ioSample = ZNetRxIoSampleResponse.parseIsSample(remoteAt);
+				socket.emit("BridgeRecebeDados", new JSONObject("{comando: LeituraAnalogica, valor: " + ioSample.getAnalog(pin) + ", id:" + json.getString("id") + "}"));
+			}
+		} catch (JSONException e) {
+			System.out.println("Nao foi possivel construir objeto JSON para leitura de entrada");
+		} catch (IOException e) {
+			System.out.println("Nao foi possivel enviar evento EntradaLida para servidor");
+		} catch (XBeeTimeoutException e) {
+			e.printStackTrace();
+		} catch (XBeeException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -100,7 +146,7 @@ public class XbeeCallback implements MessageCallback {
 	private void InicializaXbee(){
 		try {
 			xbee = new XBee();
-			xbee.open("/dev/tty", 9600);
+			xbee.open("/dev/ttyUSB0", 9600);
 		} catch (XBeeException e) {
 			e.printStackTrace();
 		}

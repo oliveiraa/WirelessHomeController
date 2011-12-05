@@ -47,7 +47,8 @@ io.sockets.on('connection', function(socket){
   });
 
   socket.on('BridgeRecebeDados', function (data){
-    console.log('Recebido mensgem no servidor do evento "BridgeRecebeDados"');
+    console.log('Recebido mensagem no servidor do evento "BridgeRecebeDados", fazendo broadcast, ' + data);
+    socket.broadcast.emit('RecebeMensagemSensor',data);
   });
 });
 
