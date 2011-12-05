@@ -13,6 +13,14 @@ var express = require('express')
 var app = module.exports = express.createServer();
 var io = module.exports = socket.listen(app);
 
+// New Functions
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+
 // Configuration
 
 app.configure(function(){
@@ -75,6 +83,7 @@ app.get('/dispositivos/criar/:nome', dispositivo.criar);
 app.post('/dispositivos/criar', dispositivo.criarPost);
 app.get('/dispositivos/editar/:nome', dispositivo.editar);
 app.post('/dispositivos/editar', dispositivo.editarPost);
+app.get('/dispositivos/deletar/:nomeSensor/:nomeDispositivo', dispositivo.deletar);
 app.get('/gerenciar/:nome', gerenciar.getSensor);
 
 

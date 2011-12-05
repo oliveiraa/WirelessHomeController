@@ -19,3 +19,4 @@ div(id='DispositivosEditar',data-role='page', data-add-back-btn='true', data-bac
   input(type='hidden', id='hdTipo', value=dispositivo.Tipo)
   input(type='hidden', id='hdNomeSensor', value=sensor.Nome)
   input(type='button', value='Editar', id='btnEditar')
+  a(href="/dispositivos/deletar/" + sensor.Nome + "/" + dispositivo.Nome, data-role="button", data-icon="delete") Deletar

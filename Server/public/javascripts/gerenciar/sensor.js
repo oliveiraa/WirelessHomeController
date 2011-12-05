@@ -7,14 +7,31 @@ var GerenciarSensor = function(){
     socket.on('RecebeMensagemSensor', function(data) {
       switch(data.comando) {
         case 'LeituraDigital': {
-          
+          $.get('/sensor.json/' + data.nomeSensor, function(d) {
+            var sensor = d;
+            for(i = 0; i < sensor.Dispositivos.length; i++) {
+              var dispositivo = sensor.Dispositivos[i];
+              if(dispositivo.Nome === data.nomeDispositivo) {
+                if(dispositivo.Funcao) {
+                  dipositivo.Funcao(data);
+                };
+              };            
+            };
+          });
           break;
         };
         case 'LeituraAnalogica': {
-          console.log(data);
-          break;
-        };
-        case '': {
+          $.get('/sensor.json/' + data.nomeSensor, function(d) {
+            var sensor = d;
+            for(i = 0; i < sensor.Dispositivos.length; i++) {
+              var dispositivo = sensor.Dispositivos[i];
+              if(dispositivo.Nome === data.nomeDispositivo) {
+                if(dispositivo.Funcao) {
+                  dipositivo.Funcao(data);
+                };
+              };            
+            };
+          });
           break;
         };                
       };
@@ -71,6 +88,8 @@ var GerenciarSensor = function(){
       data.endereco = sensor.Endereco;
       data.comando = 'AlteraValorDigital';
       data.id = dispositivo.htmlId;
+      data.nomeSensor = sensor.nome;
+      data.nomeDispositivo = dispositivo.nome;
       if($('#' + dispositivo.htmlId).val() === "false")
         data.valor = 4;
       else	
@@ -91,14 +110,16 @@ var GerenciarSensor = function(){
     $div.trigger('create');
     $("#" + dispositivo.htmlId + " input[type='radio']").on('change', function(event, ui) {
       var opcao = $($("input[type='radio']:checked , #" + dispositivo.htmlId)[1]).val();
+      var data = {};
+      data.nomeSensor = sensor.nome;
+      data.nomeDispositivo = dispositivo.nome;
+      data.comando = 'AlteraValorDigital';
+      data.endereco = sensor.Endereco;
+      data.id = dispositivo.htmlId;
       switch(opcao) {
         case 'direita': {
-          var data = {};
           data.porta = dispositivo.Porta.split(',')[0];
-          data.endereco = sensor.Endereco;
-          data.comando = 'AlteraValorDigital';
           data.valor = 4;
-          data.id = dispositivo.htmlId;
           socket.emit('EnviaMensagemSensor', {data: data});          
           data.porta = dispositivo.Porta.split(',')[1];
           data.valor = 5;
@@ -106,12 +127,8 @@ var GerenciarSensor = function(){
           break;
         }
         case 'esquerda': {
-          var data = {};
           data.porta = dispositivo.Porta.split(',')[0];
-          data.endereco = sensor.Endereco;
-          data.comando = 'AlteraValorDigital';
           data.valor = 5;
-          data.id = dispositivo.htmlId;
           socket.emit('EnviaMensagemSensor', {data: data});          
           data.porta = dispositivo.Porta.split(',')[1];
           data.valor = 4;
@@ -119,12 +136,8 @@ var GerenciarSensor = function(){
           break;
         }
         case 'desligado': {
-          var data = {};
           data.porta = dispositivo.Porta.split(',')[0];
-          data.endereco = sensor.Endereco;
-          data.comando = 'AlteraValorDigital';
           data.valor = 4;
-          data.id = dispositivo.htmlId;
           socket.emit('EnviaMensagemSensor', {data: data});          
           data.porta = dispositivo.Porta.split(',')[1];
           data.valor = 4;
@@ -150,6 +163,8 @@ var GerenciarSensor = function(){
     data.comando = "AlteraValorDigital";
     data.valor = 3;
     data.id = dispositivo.htmlId;
+    data.nomeSensor = sensor.nome;
+    data.nomeDispositivo = dispositivo.nome;
     socket.emit('EnviaMensagemSensor', {data: data});          
     window.setInterval(function(){
       data.comando = "LerValorDigital";
@@ -172,6 +187,8 @@ var GerenciarSensor = function(){
     data.comando = "AlteraValorDigital";
     data.valor = 2;
     data.id = dispositivo.htmlId;
+    data.nomeSensor = sensor.nome;
+    data.nomeDispositivo = dispositivo.nome;
     socket.emit('EnviaMensagemSensor', {data: data});          
     window.setInterval(function(){
       data.comando = "LerValorAnalogico";
