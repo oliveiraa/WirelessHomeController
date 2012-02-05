@@ -12,10 +12,13 @@ var GerenciarSensor = function(){
             for(i = 0; i < sensor.Dispositivos.length; i++) {
               var dispositivo = sensor.Dispositivos[i];
               if(dispositivo.Nome === data.nomeDispositivo) {
+                dispositivo.htmlId = dispositivo.Nome.split(' ')[0] + i;
+                var valor = data.valor;
                 if(dispositivo.Funcao) {
-                  dipositivo.Funcao(data);
+                  valor = eval('(' + dispositivo.Funcao + ')')(data);
                 };
-              };            
+                $('#' + dispositivo.htmlId).val(valor);
+              };
             };
           });
           break;
@@ -26,9 +29,12 @@ var GerenciarSensor = function(){
             for(i = 0; i < sensor.Dispositivos.length; i++) {
               var dispositivo = sensor.Dispositivos[i];
               if(dispositivo.Nome === data.nomeDispositivo) {
+                dispositivo.htmlId = dispositivo.Nome.split(' ')[0] + i;
+                var valor = data.valor;
                 if(dispositivo.Funcao) {
-                  dipositivo.Funcao(data);
+                  valor = eval('(' + dispositivo.Funcao + ')')(data);
                 };
+                $('#' + dispositivo.htmlId).val(valor);
               };            
             };
           });
@@ -88,8 +94,8 @@ var GerenciarSensor = function(){
       data.endereco = sensor.Endereco;
       data.comando = 'AlteraValorDigital';
       data.id = dispositivo.htmlId;
-      data.nomeSensor = sensor.nome;
-      data.nomeDispositivo = dispositivo.nome;
+      data.nomeSensor = sensor.Nome;
+      data.nomeDispositivo = dispositivo.Nome;
       if($('#' + dispositivo.htmlId).val() === "false")
         data.valor = 4;
       else	
@@ -111,8 +117,8 @@ var GerenciarSensor = function(){
     $("#" + dispositivo.htmlId + " input[type='radio']").on('change', function(event, ui) {
       var opcao = $($("input[type='radio']:checked , #" + dispositivo.htmlId)[1]).val();
       var data = {};
-      data.nomeSensor = sensor.nome;
-      data.nomeDispositivo = dispositivo.nome;
+      data.nomeSensor = sensor.Nome;
+      data.nomeDispositivo = dispositivo.Nome;
       data.comando = 'AlteraValorDigital';
       data.endereco = sensor.Endereco;
       data.id = dispositivo.htmlId;
@@ -163,8 +169,8 @@ var GerenciarSensor = function(){
     data.comando = "AlteraValorDigital";
     data.valor = 3;
     data.id = dispositivo.htmlId;
-    data.nomeSensor = sensor.nome;
-    data.nomeDispositivo = dispositivo.nome;
+    data.nomeSensor = sensor.Nome;
+    data.nomeDispositivo = dispositivo.Nome;
     socket.emit('EnviaMensagemSensor', {data: data});          
     window.setInterval(function(){
       data.comando = "LerValorDigital";
@@ -187,8 +193,8 @@ var GerenciarSensor = function(){
     data.comando = "AlteraValorDigital";
     data.valor = 2;
     data.id = dispositivo.htmlId;
-    data.nomeSensor = sensor.nome;
-    data.nomeDispositivo = dispositivo.nome;
+    data.nomeSensor = sensor.Nome;
+    data.nomeDispositivo = dispositivo.Nome;
     socket.emit('EnviaMensagemSensor', {data: data});          
     window.setInterval(function(){
       data.comando = "LerValorAnalogico";

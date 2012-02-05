@@ -79,11 +79,12 @@ app.get('/sensor/sensores', sensor.getSensores);
 app.get('/sensor/criar', sensor.criarSensor);
 app.get('/sensor/:nome', sensor.getSensor);
 app.post('/sensor/criar', sensor.criarSensorPost);
+app.post('/sensor/deletar', sensor.deletarSensor);
 app.get('/dispositivos/criar/:nome', dispositivo.criar);
 app.post('/dispositivos/criar', dispositivo.criarPost);
 app.get('/dispositivos/editar/:nome', dispositivo.editar);
 app.post('/dispositivos/editar', dispositivo.editarPost);
-app.get('/dispositivos/deletar/:nomeSensor/:nomeDispositivo', dispositivo.deletar);
+app.post('/dispositivos/deletar', dispositivo.deletar);
 app.get('/gerenciar/:nome', gerenciar.getSensor);
 
 

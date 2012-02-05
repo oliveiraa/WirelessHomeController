@@ -103,9 +103,9 @@ public class XbeeCallback implements MessageCallback {
 			RemoteAtResponse remoteAt = (RemoteAtResponse)response;
 			if(remoteAt.isOk()) {
 				ZNetRxIoSampleResponse ioSample = ZNetRxIoSampleResponse.parseIsSample(remoteAt);
-				socket.emit("BridgeRecebeDados", new JSONObject("{comando: LeituraDigital, valor: " + ioSample.isDigitalOn(pin) + ", id:" + json.getString("id") + "}"));
+				socket.emit("BridgeRecebeDados", new JSONObject("{comando: LeituraDigital,nomeSensor: " + json.getString("nomeSensor") + ",nomeDispositivo:" + json.getString("nomeDispositivo") + ", valor: " + ioSample.isDigitalOn(pin) + ", id:" + json.getString("id") + "}"));
 			}
-			
+				
 		} catch (JSONException e) {
 			System.out.println("Nao foi possivel construir objeto JSON para leitura de entrada");
 		} catch (IOException e) {
@@ -127,7 +127,7 @@ public class XbeeCallback implements MessageCallback {
 			RemoteAtResponse remoteAt = (RemoteAtResponse)response;
 			if(remoteAt.isOk()) {
 				ZNetRxIoSampleResponse ioSample = ZNetRxIoSampleResponse.parseIsSample(remoteAt);
-				socket.emit("BridgeRecebeDados", new JSONObject("{comando: LeituraAnalogica, valor: " + ioSample.getAnalog(pin) + ", id:" + json.getString("id") + "}"));
+				socket.emit("BridgeRecebeDados", new JSONObject("{comando: LeituraDigital,nomeSensor: " + json.getString("nomeSensor") + ",nomeDispositivo:" + json.getString("nomeDispositivo") + ", valor: " + ioSample.getAnalog(pin) + ", id:" + json.getString("id") + "}"));
 			}
 		} catch (JSONException e) {
 			System.out.println("Nao foi possivel construir objeto JSON para leitura de entrada");

@@ -62,3 +62,15 @@ exports.criarSensorPost = function(req, res) {
     };
   });
 };
+
+exports.deletarSensor = function(req, res) {
+  this.db.open(function(err, db) {
+    if(!err) {
+      db.collection('Sensores', function(err, collection) {
+        collection.remove({Nome: req.body.nome}, {safe: true}, function(err, result){
+          res.json({err: err, result: result});
+        });
+      });
+    };
+  });
+};

@@ -11,6 +11,7 @@ div(id='SensorSensor',data-role='page', data-add-back-btn='true', data-back-btn-
     div(data-role='fieldcontain')
       label(for='txtDescricao') Descrição
       textarea(type='text', id='txtDescricao')= item.Descricao
+    input(type='button', id='btnDeletar', data-icon='del', value='Deletar')
     br
     ul(data-role='listview')
       li(data-role='list-divider') Dispositivos

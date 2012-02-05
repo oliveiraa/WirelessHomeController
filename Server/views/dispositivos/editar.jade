@@ -11,12 +11,17 @@ div(id='DispositivosEditar',data-role='page', data-add-back-btn='true', data-bac
     div(data-role='fieldcontain')
       label(for='txtDispDescricao') Descrição
       textarea(type='text', id='txtDispDescricao')= dispositivo.Descricao
+    div(data-role='fieldcontain')
+      label(for='txtDispFuncao') Função
+      textarea(type='text', id='txtDispFuncao')= dispositivo.Funcao
+    div(data-role='fieldcontain')
       label(for='selectTipo') Tipo
       select(id='selectTipo')
         option(value='Digital') Digital
         option(value='IncDec') Incrementar/Decrementar
         option(value='Leitura') Leitura
+        option(value='LeituraAnalogica') Leitura Analógica
   input(type='hidden', id='hdTipo', value=dispositivo.Tipo)
   input(type='hidden', id='hdNomeSensor', value=sensor.Nome)
   input(type='button', value='Editar', id='btnEditar')
-  a(href="/dispositivos/deletar/" + sensor.Nome + "/" + dispositivo.Nome, data-role="button", data-icon="delete") Deletar
+  input(type='button', id='btnDeletar', data-role="button", data-icon="delete", value='Deletar')

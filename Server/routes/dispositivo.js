@@ -62,16 +62,16 @@ exports.deletar = function(req, res) {
   this.db.open(function(err, db) {
     if(!err) {
       db.collection('Sensores', function(err, collection) {
-        collection.findOne({Nome: req.params.nomeSensor}, function(err, item) {
+        collection.findOne({Nome: req.body.nomeSensor}, function(err, item) {
           for(i = 0; i < item.Dispositivos.length; i++) {
-            if(item.Dispositivos[i].Nome === req.params.nomeDispositivo) {
+            if(item.Dispositivos[i].Nome === req.body.nomeDispositivo) {
               var posRemover = i;
             };
           };
           if(posRemover != undefined) {
             item.Dispositivos.remove(posRemover);
-            collection.update({Nome: req.params.nomeSensor}, item, {safe: true}, function(err, result){
-              res.redirect('/sensor/sensores');
+            collection.update({Nome: req.body.nomeSensor}, item, {safe: true}, function(err, result){
+              res.send({err: err, result: result});
             });
           };
         });
